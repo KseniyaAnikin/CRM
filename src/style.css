@@ -1,0 +1,132 @@
+html {
+  box-sizing: border-box;
+}
+  
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+  
+:root {
+  --txt-grey: #B0B0B0; 
+  --firm: #9873FF;
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  src: url('OpenSans-Regular'), url('../fonts/OpenSans-Regular.woff2') format('woff2'),
+  url('../fonts/OpenSans-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+  
+@font-face {
+  font-family: 'OpenSans';
+  src: url('OpenSans-SemiBold'), url('../fonts/OpenSans-SemiBold.woff2') format('woff2'),
+  url('../fonts/OpenSans-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+  
+@font-face {
+  font-family: 'OpenSans';
+  src: url('OpenSans-Bold'), url('../fonts/OpenSans-Bold.woff2') format('woff2'),
+  url('../fonts/OpenSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+  
+body {
+  max-width: 1366px;
+  margin: auto;
+  font-family: 'OpenSans', sans-serif;
+  font-weight: 400;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+  
+.btn {
+  /* padding: 0;
+  border: none;
+  background-color: transparent; */
+  display: block;
+  cursor: pointer;
+  margin: auto;
+  /* transition: background-color .3s ease-in-out; */
+}
+  
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+  
+.container {
+  padding: 40px 90px 200px 90px;
+  background-color: #F5F5F5;
+  padding-left: 160px;
+  padding-right: 160px;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  position: relative;
+  padding: 20px;
+  align-items: center;
+  box-shadow: 0 7px 33px -21px rgb(0 0 0 / 32%);
+}
+
+/* .header__logo {
+  margin-right: 53px;
+} */
+
+/* .header__input {
+  width: 581px;
+  padding: 12px 0 13px 16px;
+  color: black;
+  border: 1px solid var(--txt-grey);
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+} */
+
+/* .header__input::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--txt-grey);
+} */
+
+
+/* .main__title {
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+}
+
+th {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--txt-grey);
+}
+
+.add-btn {
+  padding: 14px 26.5px;  
+}
+
+.add-pic {
+  margin-right: 10px;
+} */
+
+/* MODAL */
