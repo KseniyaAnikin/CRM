@@ -1,0 +1,261 @@
+html {
+  box-sizing: border-box;
+}
+  
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+  
+:root {
+  --txt-grey: #B0B0B0; 
+  --firm: #9873FF;
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  src: url('./assets/OpenSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+  
+/* @font-face {
+  font-family: 'OpenSans';
+  src: url('OpenSans-SemiBold'), url('../fonts/OpenSans-SemiBold.woff2') format('woff2'),
+  url('../fonts/OpenSans-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+  
+@font-face {
+  font-family: 'OpenSans';
+  src: url('OpenSans-Bold'), url('../fonts/OpenSans-Bold.woff2') format('woff2'),
+  url('../fonts/OpenSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+} */
+  
+body {
+  max-width: 1366px;
+  margin: auto;
+  font-family: 'OpenSans', sans-serif;
+  font-weight: 400;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+  
+.add-btn {
+  display: block;
+  margin: auto;
+  padding: 12px 26px 12px 58px;
+  border: 1px solid var(--firm);
+  background-color: transparent;
+  background-image: url('./assets/btnpic.svg');
+  background-repeat: no-repeat;
+  background-position: left 26px center;
+  color: var(--firm);
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+}
+  
+.container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.header {
+  background-color: #F5F5F5;
+  box-shadow: 0 7px 33px -21px rgb(0 0 0 / 32%);
+}
+
+.header-container {
+  padding-top: 23px;
+  padding-bottom: 23px;
+  background-image: url('./assets/logo.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+
+.header-input {
+  width: 581px;
+  margin-left: 103px;
+  padding: 12px 0 13px 16px;
+  color: black;
+  border: 1px solid var(--txt-grey);
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.header-input::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--txt-grey);
+}
+
+/* 
+.main__title {
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+} */
+
+th {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--txt-grey);
+}
+
+/* .add-btn {
+  padding: 14px 26.5px;  
+} */
+
+.add-pic {
+  margin-right: 10px;
+}
+
+/* MODAL */
+.modal__wrap {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 100%;
+  min-height: 100%;
+  margin: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery__modal {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  transition: .3s;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding: 60px 15px;
+}
+
+.modal_active {
+  position: fixed;
+  top: 0;
+  visibility: visible;
+  opacity: 1;
+  animation-name: modalAnimation;
+  animation-duration: .8s;
+  /* animation-iteration-count: infinite; */
+  /* animation-direction: alternate; */
+}
+
+@keyframes modalAnimation {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+
+
+.modal__content {
+  position: relative;
+  display: flex;
+  max-width: 900px;
+  font-size: 0;
+  box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.8);
+}
+
+.modal__picture {
+  flex-shrink: 0;
+}
+
+.modal__img {
+  height: 100%;
+}
+
+.modal__text {
+  background: #FFFFFF;
+}
+
+.modal__title {
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 33px;
+  color: var(--text-color-dark);
+}
+
+.modal__subtitle {
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--text-color-dark);
+}
+
+.modal__close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.modal__close-button:active path {
+  fill: var(--active-color);
+}
+
+.modal__dates {
+  display: block;
+  font-weight: 400;
+  color: #969696;
+}
+
+.modal__descr {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 32px;
+  color: var(--text-color-dark);
+}
+
+.modal__text {
+  padding: 105px 36px 105px 50px;
+}
+
+.modal__close-button:hover path,
+.modal__close-button:focus-visible path {
+  fill: #9D5CD0;
+}
+
+.modal__close-button:focus-visible {
+  outline: none;
+}
+
+.modal__close-button:active path {
+  fill: #7943A4;
+}
+
+.modal__dates {
+  margin-bottom: 54px;
+  font-size: 12px;
+}
