@@ -2,7 +2,7 @@
   "name": "crm",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,7 +16,7 @@
     "url": "https://github.com/KseniyaAnikin/CRM/issues"
   },
   "homepage": "https://github.com/KseniyaAnikin/CRM#readme",
-  "devDependencies": {
+  "dependencies": {
     "redom": "^3.29.1"
   }
 }
