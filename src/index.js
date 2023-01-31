@@ -1,6 +1,7 @@
 import './normalize.css';
 import './style.css';
 import {el, setChildren, mount} from 'redom';
+import { overlay, modal} from './modal.js';
 
 const header = el('header');
 const container = el('div');
@@ -11,9 +12,17 @@ header.classList.add('header');
 const addBtn = el('button', 'Добавить клиента');
 addBtn.classList.add('add-btn');
 
-setChildren(document.body,[ header, addBtn]);
 setChildren(container, headerInput);
 setChildren(header,container);
+
+setChildren(document.body,[ header, addBtn, overlay, modal]);
+
+addBtn.addEventListener('click', ()=> {
+  overlay.classList.add('active');
+  modal.classList.add('active');
+  console.log('DONE')
+})
+
 
 
 
