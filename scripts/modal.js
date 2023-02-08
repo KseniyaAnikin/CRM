@@ -1,219 +1,172 @@
 export function modal() {
 
   const modal = document.createElement('div');
-  const modalContent = document.createElement('div');
-  const title = document.createElement('h2');
-  const form = document.createElement('form');
-
-  const firstName = document.createElement('input');
-  const firstNameLabel = document.createElement('label');
-  const firstNameBlock = document.createElement('div');
-
-  const surName = document.createElement('input');
-  const surNameLabel = document.createElement('label');
-  const surNameBlock = document.createElement('div');
-
-  const lastName = document.createElement('input');
-  const lastNameLabel = document.createElement('label');
-  const lastNameBlock = document.createElement('div');
-
-  const contactBlock = document.createElement('div');
-  const addContactButton = document.createElement('button');
-  const saveButton = document.createElement('button');
-  const cancelButton = document.createElement('button');
-  const closeButton = document.createElement('button');
-
-  
-
-  
- 
-
   modal.classList.add('modal');
   setTimeout(() => {
     modal.classList.add('active');
   }, 300);
-  modal.addEventListener('click', (e) => {
-    if (e._isClickWithimModal) { return; }
-    modal.remove();
-  });
+  document.querySelector('.wrapper').append(modal);
 
+  const modalContent = document.createElement('div');
   modalContent.classList.add('modal__content');
-  modalContent.append(title);
-  modalContent.append(closeButton);
-  modalContent.dataset.simplebar = true;
+  modal.append(modalContent);
 
-  contactBlock.classList.add('modal__contacts', 'modal-contacts');
-  contactBlock.append(addContactButton);
-
-  form.classList.add('modal__form', 'modal-form');
-  form.append(surNameBlock);
-  form.append(firstNameBlock);
-  form.append(lastNameBlock);
-  form.append(contactBlock);
-  form.append(saveButton);
-  form.append(cancelButton);
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    saveButton.classList.toggle('modal__submit_loading');
-    const errors = form.querySelector('.modal__error-block');
-
-    if (errors) {
-      errors.textContent = '';
-    }
-
-    if (!validateField(form)) {
-      saveButton.classList.toggle('modal__submit_loading');
-      return;
-    }
-
-    if (type === TYPE.new) {    // Если создаем нового пользователя
-      const data = await dataServer.addUserToServer({
-        name: firstName.value,
-        surname: surName.value,
-        lastName: lastName.value,
-        contacts: getContacts(contactBlock),
-      });
-
-      if (data.errors) {
-        for (const error of data.errors) {
-          const er = document.createElement('div');
-          er.classList.add('modal__error');
-          er.textContent = error.message;
-          errors.append(er);
-        }
-        saveButton.before(errors);
-        return;
-      }
-    } else if (type === TYPE.change) {    //Если изменяем существующего пользователя
-      const data = await dataServer.updateUserToServer(user.id, {
-        name: firstName.value,
-        surname: surName.value,
-        lastName: lastName.value,
-        contacts: getContacts(contactBlock),
-      });
-
-      if (data.message) {
-        saveButton.before(data.message);
-        return;
-      }
-    }
-
-    form.reset();
-
-    saveButton.classList.toggle('modal__submit_loading');
-
-    firstNameLabel.removeAttribute('style');
-    surNameLabel.removeAttribute('style');
-    lastNameLabel.removeAttribute('style');
-    modal.classList.remove('active');
-    createTableBody();
-  });
-
-  modalContent.append(form);
-  modalContent.addEventListener('click', (e) => {
-    e._isClickWithimModal = true;
-  });
-
-  // surname
-  surName.classList.add('modal__input');
-  surName.value = user.surname || '';
-  surName.autocomplete = 'off';
-  surName.id = 'surName';
-  surName.addEventListener('blur', () => {
-    hidePlaceholder(surName, surNameLabel);
-  });
-
-  surNameLabel.classList.add('modal__placeholder');
-  surNameLabel.innerHTML = 'Фамилия<span class="symbol">*</span>';
-  surNameLabel.setAttribute('for', 'surName');
-
-  surNameBlock.append(surName);
-  surNameBlock.append(surNameLabel);
-  surNameBlock.classList.add('modal__input-container');
-
-  // firstname
-  firstName.classList.add('modal__input');
-  firstName.value = user.name || '';
-  firstName.autocomplete = 'off';
-  firstName.id = 'firstName';
-  firstName.addEventListener('blur', () => {
-    hidePlaceholder(firstName, firstNameLabel);
-  });
-
-  firstNameLabel.classList.add('modal__placeholder');
-  firstNameLabel.innerHTML = 'Имя<span class="symbol">*</span>';
-  firstNameLabel.setAttribute('for', 'firstName');
-
-  firstNameBlock.append(firstName);
-  firstNameBlock.append(firstNameLabel);
-  firstNameBlock.classList.add('modal__input-container');
-
-  // lastname
-  lastName.classList.add('modal__input');
-  lastName.value = user.lastName || '';
-  lastName.autocomplete = 'off';
-  lastName.id = 'lastName';
-  lastName.addEventListener('blur', () => {
-    hidePlaceholder(lastName, lastNameLabel);
-  });
-
-  lastNameLabel.classList.add('modal__placeholder');
-  lastNameLabel.innerHTML = 'Отчество';
-  lastNameLabel.setAttribute('for', 'lastName');
-
-  lastNameBlock.append(lastName);
-  lastNameBlock.append(lastNameLabel);
-  lastNameBlock.classList.add('modal__input-container');
-
-  hidePlaceholder(surName, surNameLabel);
-  hidePlaceholder(firstName, firstNameLabel);
-  hidePlaceholder(lastName, lastNameLabel);
-
-  title.innerHTML = type === TYPE.new
-    ? 'Новый клиент' : `Изменить данные <span class='modal-title__id'>ID: ${user.id}</span>`;
+  const title = document.createElement('h2');
   title.classList.add('modal__title');
+  title.innerHTML = 'Новый клиент';
+  modalContent.append(title);
 
-  if (user.contacts) {
-    for (const contact of user.contacts) {
-      addContact(contactBlock, addContactButton, contact);
-    }
-  }
+  const form = document.createElement('form');
+  form.classList.add('modal__form', 'modal-form');
+  modalContent.append(form);
 
-  addContactButton.classList.add('modal__add-contact');
-  addContactButton.dataset.index = contactBlock.childNodes.length - 1;
-  addContactButton.textContent = 'Добавить контакт';
-  addContactButton.addEventListener('click', (e) => {
-    const index = addContactButton.dataset.index;
-    addContactButton.dataset.index = Number(index) + 1;
-    e.preventDefault();
-    addContact(contactBlock, addContactButton);
-    if (index >= 9) {
-      addContactButton.style.display = 'none';
-    }
-  });
-
+  const closeButton = document.createElement('button');
   closeButton.classList.add('modal__close');
   closeButton.addEventListener('click', () => {
     form.reset();
     modal.remove();
   });
+  modalContent.append(closeButton);
 
-  saveButton.textContent = 'Сохранить';
-  saveButton.type = 'submit';
-  saveButton.classList.add('modal__submit');
+  // surname
+  const surName = document.createElement('input');
+  const surNameLabel = document.createElement('label');
+  const surNameBlock = document.createElement('div');
+  surName.classList.add('modal__input');
+  surNameLabel.classList.add('modal__placeholder');
+  surNameBlock.classList.add('modal__input-container');
+  surNameLabel.innerHTML = 'Фамилия<span class="symbol">*</span>';
+  surNameBlock.append(surName);
+  surNameBlock.append(surNameLabel);
+  form.append(surNameBlock);
 
-  cancelButton.textContent = type === TYPE.new ? 'Отмена' : 'Удалить клиента';
-  cancelButton.classList.add('modal__cancel');
+  // firstname
+  const firstName = document.createElement('input');
+  const firstNameLabel = document.createElement('label');
+  const firstNameBlock = document.createElement('div');
+  firstName.classList.add('modal__input');
+  firstNameLabel.classList.add('modal__placeholder');
+  firstNameBlock.classList.add('modal__input-container');
+  firstNameLabel.innerHTML = 'Имя<span class="symbol">*</span>';
+  firstNameBlock.append(firstName);
+  firstNameBlock.append(firstNameLabel);
+  form.append(firstNameBlock);
 
-  cancelButton.addEventListener('click', (e) => {
-    if (type === TYPE.change) {
-      deleteUser(user.id);
-    }
+  // patronymic
+  const patronymic = document.createElement('input');
+  const patronymicLabel = document.createElement('label');
+  const patronymicBlock = document.createElement('div');
+  patronymic.classList.add('modal__input');
+  patronymicLabel.classList.add('modal__placeholder');
+  patronymicBlock.classList.add('modal__input-container');
+  patronymicLabel.innerHTML = 'Отчество';
+  patronymicBlock.append(patronymic);
+  patronymicBlock.append(patronymicLabel);
+  form.append(patronymicBlock);
+
+  //add
+  const contactBlock = document.createElement('div');
+  contactBlock.classList.add('modal__contacts', 'modal-contacts');
+  form.append(contactBlock);
+
+  const addContactButton = document.createElement('button');
+  addContactButton.classList.add('modal__add-contact');
+  // addContactButton.dataset.index = contactBlock.childNodes.length - 1;
+  addContactButton.textContent = 'Добавить контакт';
+  addContactButton.addEventListener('click', (e) => {
+  //   const index = addContactButton.dataset.index;
+  //   addContactButton.dataset.index = Number(index) + 1;
     e.preventDefault();
-    modal.remove();
-  });
+    createContact(contactBlock, addContactButton);
+  //   if (index >= 9) {
+  //     addContactButton.style.display = 'none';
+  //   }
+   });
+  contactBlock.append(addContactButton);
 
-  modal.append(modalContent);
-  document.querySelector('.wrapper').append(modal);
+  //save
+  const saveButton = document.createElement('button');
+  saveButton.classList.add('modal__submit');
+  saveButton.textContent = 'Сохранить';
+  form.append(saveButton);
+
+  //cancell
+  const cancelButton = document.createElement('button');
+  cancelButton.classList.add('modal__cancel');
+  cancelButton.textContent = 'Отмена';
+  form.append(cancelButton);
+}
+
+const SELECT_TYPE = {
+  tel: 'Телефон',
+  extratel: 'Доп.телефон',
+  email: 'Email',
+  vk: 'Vk',
+  facebook: 'Facebook',
+};
+
+function createContact(block, button){
+
+  const contactBlock = document.createElement('div');
+  contactBlock.classList.add('modal-contacts__item');
+  button.before(contactBlock);
+
+  // select
+  const select = document.createElement('select');
+  const choices = (el) => {
+    new Choices(el, {
+      shouldSort: false,
+      searchEnabled: false,
+      itemSelectText: "",
+      choices: [
+        {
+          value: SELECT_TYPE.tel,
+          label: SELECT_TYPE.tel,
+          placeholder: true,
+          selected: true,
+          disabled: false,
+        },
+        {
+          value: SELECT_TYPE.extratel,
+          label: SELECT_TYPE.extratel,
+          selected: false,
+          disabled: false,
+        },
+        {
+          value: SELECT_TYPE.email,
+          label: SELECT_TYPE.email,
+          selected: false,
+          disabled: false,
+        },
+        {
+          value: SELECT_TYPE.vk,
+          label: SELECT_TYPE.vk,
+          selected: false,
+          disabled: false,
+        },
+        {
+          value: SELECT_TYPE.facebook,
+          label: SELECT_TYPE.facebook,
+          selected: false,
+          disabled: false,
+        },
+      ],
+    })
+  };
+  
+  const input = document.createElement('input');
+  input.classList.add('modal-contacts__input');
+  input.placeholder = 'Введите данные контакта';
+ 
+  const cancel = document.createElement('button');
+  cancel.classList.add('modal-contacts__cancel');
+
+  block.classList.add('modal__contacts_active');
+
+  contactBlock.append(select);
+  contactBlock.append(input);
+  contactBlock.append(cancel);
+
+  choices(select);
+
 }

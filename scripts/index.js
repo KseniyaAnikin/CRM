@@ -1,3 +1,5 @@
+import { modal } from "./modal.js";
+
 const wrapper = document.querySelector('.wrapper');
 const main = document.querySelector('.main');
 const container = document.createElement('div');
@@ -36,9 +38,11 @@ const createAddButton = (el) => {
 
   button.textContent = 'Добавить клиента';
   button.classList.add('main__button');
-  // button.addEventListener('click', () => {
-  //   mainModal();
-  // });
+  button.addEventListener('click', () => {
+    // setTimeout(() => {
+      modal();
+    // }, 300);  
+  });
 
   buttonContainer.classList.add('main__button-container');
   buttonContainer.append(button);
