@@ -22,7 +22,8 @@ export function modal() {
 
   const closeButton = document.createElement('button');
   closeButton.classList.add('modal__close');
-  closeButton.addEventListener('click', () => {
+  closeButton.addEventListener('click', (e) => {
+    e.preventDefault();
     form.reset();
     modal.remove();
   });
@@ -71,17 +72,11 @@ export function modal() {
 
   const addContactButton = document.createElement('button');
   addContactButton.classList.add('modal__add-contact');
-  // addContactButton.dataset.index = contactBlock.childNodes.length - 1;
   addContactButton.textContent = 'Добавить контакт';
   addContactButton.addEventListener('click', (e) => {
-  //   const index = addContactButton.dataset.index;
-  //   addContactButton.dataset.index = Number(index) + 1;
     e.preventDefault();
     createContact(contactBlock, addContactButton);
-  //   if (index >= 9) {
-  //     addContactButton.style.display = 'none';
-  //   }
-   });
+  });
   contactBlock.append(addContactButton);
 
   //save

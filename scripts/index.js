@@ -39,9 +39,7 @@ const createAddButton = (el) => {
   button.textContent = 'Добавить клиента';
   button.classList.add('main__button');
   button.addEventListener('click', () => {
-    // setTimeout(() => {
       modal();
-    // }, 300);  
   });
 
   buttonContainer.classList.add('main__button-container');
