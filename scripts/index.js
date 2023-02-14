@@ -1,4 +1,5 @@
 import { modal } from "./modal.js";
+import { getContactsInfo } from "./data.js";
 
 const wrapper = document.querySelector('.wrapper');
 const main = document.querySelector('.main');
@@ -49,3 +50,13 @@ const createAddButton = (el) => {
 
 createHeader(wrapper);
 createAddButton(wrapper);
+
+
+//test get contacts
+// const data = await getContactsInfo()
+
+// data.forEach(element => {
+//   const table = document.createElement('div')
+//   table.innerHTML = element.name
+//   wrapper.append(table)
+// });

@@ -1,3 +1,5 @@
+import { addContactsInfo } from "./data.js";
+
 export function modal() {
 
   const modal = document.createElement('div');
@@ -22,8 +24,8 @@ export function modal() {
 
   const closeButton = document.createElement('button');
   closeButton.classList.add('modal__close');
-  closeButton.addEventListener('click', (e) => {
-    e.preventDefault();
+  closeButton.addEventListener('click', () => {
+    // e.preventDefault();
     form.reset();
     modal.remove();
   });
@@ -72,9 +74,9 @@ export function modal() {
 
   const addContactButton = document.createElement('button');
   addContactButton.classList.add('modal__add-contact');
+  addContactButton.setAttribute('type', 'button');
   addContactButton.textContent = 'Добавить контакт';
-  addContactButton.addEventListener('click', (e) => {
-    e.preventDefault();
+  addContactButton.addEventListener('click', () => {
     createContact(contactBlock, addContactButton);
   });
   contactBlock.append(addContactButton);
@@ -83,13 +85,26 @@ export function modal() {
   const saveButton = document.createElement('button');
   saveButton.classList.add('modal__submit');
   saveButton.textContent = 'Сохранить';
+  saveButton.setAttribute('type', 'button');
   form.append(saveButton);
+  saveButton.addEventListener('click', ()=>{
+    let newContact = {
+      name: firstName.value,
+      surname: surName.value,
+      lastName: patronymic.value,
+      contacts: addCont(),
+
+    }
+     addContactsInfo(newContact)
+    // console.log(addCont())
+  })
 
   //cancell
   const cancelButton = document.createElement('button');
   cancelButton.classList.add('modal__cancel');
   cancelButton.textContent = 'Отмена';
   form.append(cancelButton);
+
 }
 
 const SELECT_TYPE = {
@@ -165,3 +180,19 @@ function createContact(block, button){
   choices(select);
 
 }
+
+function addCont(){
+  let itemsCont = document.querySelectorAll('.modal-contacts__item');
+  let allCont = [];
+
+  itemsCont.forEach(item => {
+
+    let select = item.querySelector('select');
+    let input = item.querySelector('input');
+    let cont = {type: select.value, value: input.value};
+    allCont.push(cont)
+  })
+
+  return allCont;
+}
+
