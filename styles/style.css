@@ -91,6 +91,10 @@ p {
   padding: 0 20px;
 }
 
+.main {
+  padding: 40px 90px;
+}
+
 .main__container {
   padding: 0 10px;
   max-width: 1246px;
@@ -165,6 +169,39 @@ p {
   font-weight: bold;
   background-color: #fdfd24;
   color: var(--black);
+}
+
+/* main */
+.main-header {
+  margin-bottom: 26px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+  display: flex;
+  align-items: center;
+  color: #333333;
+}
+
+table {
+  width: 100%;
+}
+
+.table-row {
+  background-color: #FFF;
+}
+
+.table-row > th {
+  padding: 20px;  
+  align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  align-items: center;
+  color: #333333;
+}
+
+.table-row > th:first-child {
+  color: #B0B0B0;
 }
 
 /* addButton */
