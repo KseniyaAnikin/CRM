@@ -45,8 +45,10 @@ const createTable = async(el) => {
   `<tr class = 'table-headrow'>
     <th class = 'table-head'>
       <span>ID</span>
-      <svg width="12" height="26" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2 6L2.705 6.705L5.5 3.915L5.5 10L6.5 10L6.5 3.915L9.29 6.71L10 6L6 2L2 6Z" fill="#9873FF"/>
+      <svg width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.7" clip-path="url(#clip0_121_2332)">
+      <path d="M10 6L9.295 5.295L6.5 8.085L6.5 2H5.5L5.5 8.085L2.71 5.29L2 6L6 10L10 6Z" fill="#9873FF"/></g>
+      <defs><clipPath id="clip0_121_2332"><rect width="12" height="12" fill="white"/></clipPath></defs>
       </svg>
     </th>
     <th class = 'table-head'><span>Фамилия Имя Отчество</span>
@@ -87,29 +89,44 @@ const createTable = async(el) => {
   spinner.classList.add('hide')
   data.forEach((element )=> {
       const row = document.createElement('tr');
-      row.classList.add('table-row')
+      row.classList.add('table-row');
+      row.id = `${element.id}`
       row.innerHTML = `<th>${element.id}</th>
         <th>${element.surname} ${element.name} ${element.lastName} </th>
         <th>${timeParse(element.createdAt)} </th>
         <th>${timeParse(element.updatedAt)}</th>
         <th> 
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g opacity="0.7" clip-path="url(#clip0_121_2280)"><path d="M2 11.5V14H4.5L11.8733 6.62662L9.37333 4.12662L2 11.5ZM13.8067 4.69329C14.0667 4.43329 14.0667 4.01329 13.8067 3.75329L12.2467 2.19329C11.9867 1.93329 11.5667 1.93329 11.3067 2.19329L10.0867 3.41329L12.5867 5.91329L13.8067 4.69329Z" fill="#9873FF"/></g>
-          <defs><clipPath id="clip0_121_2280"><rect width="16" height="16" fill="white"/></clipPath></defs>
-          </svg>
-          Изменить
+          <button class = 'change'>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.7" clip-path="url(#clip0_121_2280)"><path d="M2 11.5V14H4.5L11.8733 6.62662L9.37333 4.12662L2 11.5ZM13.8067 4.69329C14.0667 4.43329 14.0667 4.01329 13.8067 3.75329L12.2467 2.19329C11.9867 1.93329 11.5667 1.93329 11.3067 2.19329L10.0867 3.41329L12.5867 5.91329L13.8067 4.69329Z" fill="#9873FF"/></g>
+            <defs><clipPath id="clip0_121_2280"><rect width="16" height="16" fill="white"/></clipPath></defs>
+            </svg>
+            Изменить
+          </button>
         </th>
         <th>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g opacity="0.7" clip-path="url(#clip0_121_2305)">
-          <path d="M8 2C4.682 2 2 4.682 2 8C2 11.318 4.682 14 8 14C11.318 14 14 11.318 14 8C14 4.682 11.318 2 8 2ZM8 12.8C5.354 12.8 3.2 10.646 3.2 8C3.2 5.354 5.354 3.2 8 3.2C10.646 3.2 12.8 5.354 12.8 8C12.8 10.646 10.646 12.8 8 12.8ZM10.154 5L8 7.154L5.846 5L5 5.846L7.154 8L5 10.154L5.846 11L8 8.846L10.154 11L11 10.154L8.846 8L11 5.846L10.154 5Z" fill="#F06A4D"/>
-          </g><defs><clipPath id="clip0_121_2305"><rect width="16" height="16" fill="white"/></clipPath></defs>
-          </svg>
-          Удалить
+          <button class = 'delete'>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.7" clip-path="url(#clip0_121_2305)">
+            <path d="M8 2C4.682 2 2 4.682 2 8C2 11.318 4.682 14 8 14C11.318 14 14 11.318 14 8C14 4.682 11.318 2 8 2ZM8 12.8C5.354 12.8 3.2 10.646 3.2 8C3.2 5.354 5.354 3.2 8 3.2C10.646 3.2 12.8 5.354 12.8 8C12.8 10.646 10.646 12.8 8 12.8ZM10.154 5L8 7.154L5.846 5L5 5.846L7.154 8L5 10.154L5.846 11L8 8.846L10.154 11L11 10.154L8.846 8L11 5.846L10.154 5Z" fill="#F06A4D"/>
+            </g><defs><clipPath id="clip0_121_2305"><rect width="16" height="16" fill="white"/></clipPath></defs>
+            </svg>
+            Удалить
+          </button>
         </th>`
-      table.append(row)
+      table.append(row);
     });
 
+    table.addEventListener('click', (e)=>{
+      if(e.target.classList.contains('delete')){
+        console.log('delete')
+        modal('delete', e.target.parentNode.parentNode.id);
+      }
+      if(e.target.classList.contains('change')){
+        console.log('change')
+        modal('change', e.target.parentNode.parentNode.id);
+      }
+    })
 }
 
 const createAddButton = (el) => {
@@ -118,8 +135,9 @@ const createAddButton = (el) => {
 
   button.textContent = 'Добавить клиента';
   button.classList.add('main__button');
-  button.addEventListener('click', () => {
-      modal();
+  buttonContainer.setAttribute('type', 'button')
+  button.addEventListener('click', (e) => {
+    modal('add');
   });
 
   buttonContainer.classList.add('main__button-container');

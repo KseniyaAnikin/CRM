@@ -1,6 +1,6 @@
-import { addContactsInfo } from "./data.js";
+import { addContactsInfo, deleteContact, getContactsInfo, changeContact} from "./data.js";
 
-export function modal() {
+export async function modal(mode, idNum) {
 
   const modal = document.createElement('div');
   modal.classList.add('modal');
@@ -13,19 +13,22 @@ export function modal() {
   modalContent.classList.add('modal__content');
   modal.append(modalContent);
 
+  const modalAdd = document.createElement('div');
+  mode !== 'delete'  ? modalAdd.classList.add('addmodal'): modalAdd.classList.add('hide') ;
+  modalContent.append(modalAdd)
+
   const title = document.createElement('h2');
   title.classList.add('modal__title');
-  title.innerHTML = 'Новый клиент';
-  modalContent.append(title);
+  mode === 'change' ? title.innerHTML = 'Изменить данные': title.innerHTML = 'Новый клиент' ;
+  modalAdd.append(title);
 
   const form = document.createElement('form');
   form.classList.add('modal__form', 'modal-form');
-  modalContent.append(form);
+  modalAdd.append(form);
 
   const closeButton = document.createElement('button');
   closeButton.classList.add('modal__close');
   closeButton.addEventListener('click', () => {
-    // e.preventDefault();
     form.reset();
     modal.remove();
   });
@@ -38,7 +41,10 @@ export function modal() {
   surName.classList.add('modal__input');
   surNameLabel.classList.add('modal__placeholder');
   surNameBlock.classList.add('modal__input-container');
-  surNameLabel.innerHTML = 'Фамилия<span class="symbol">*</span>';
+
+  const data = await getContactsInfo(idNum);
+  console.log(data)
+  mode === 'change' ? surName.value = `${data.surname}` : surNameLabel.innerHTML = 'Фамилия<span class="symbol">*</span>'
   surNameBlock.append(surName);
   surNameBlock.append(surNameLabel);
   form.append(surNameBlock);
@@ -50,7 +56,7 @@ export function modal() {
   firstName.classList.add('modal__input');
   firstNameLabel.classList.add('modal__placeholder');
   firstNameBlock.classList.add('modal__input-container');
-  firstNameLabel.innerHTML = 'Имя<span class="symbol">*</span>';
+  mode === 'change' ? firstName.value = `${data.name}`: firstNameLabel.innerHTML = 'Имя<span class="symbol">*</span>';
   firstNameBlock.append(firstName);
   firstNameBlock.append(firstNameLabel);
   form.append(firstNameBlock);
@@ -62,7 +68,7 @@ export function modal() {
   patronymic.classList.add('modal__input');
   patronymicLabel.classList.add('modal__placeholder');
   patronymicBlock.classList.add('modal__input-container');
-  patronymicLabel.innerHTML = 'Отчество';
+  mode === 'change' ? patronymic.value = `${data.lastName}` : patronymicLabel.innerHTML = 'Отчество';
   patronymicBlock.append(patronymic);
   patronymicBlock.append(patronymicLabel);
   form.append(patronymicBlock);
@@ -77,7 +83,7 @@ export function modal() {
   addContactButton.setAttribute('type', 'button');
   addContactButton.textContent = 'Добавить контакт';
   addContactButton.addEventListener('click', () => {
-    createContact(contactBlock, addContactButton);
+    createContact(contactBlock, addContactButton, '');
   });
   contactBlock.append(addContactButton);
 
@@ -93,18 +99,49 @@ export function modal() {
       surname: surName.value,
       lastName: patronymic.value,
       contacts: addCont(),
-
     }
-     addContactsInfo(newContact)
-    // console.log(addCont())
+    mode === 'add' ? addContactsInfo(newContact) : changeContact(newContact, data.id);
+    form.reset();
+    modal.remove();
+    alert('Изменения сохранены');
+    // window.location.reload();
   })
 
-  //cancell
+  //DELETE MODE
+  const modalDelete = document.createElement('div');
+  mode === 'delete' ? modalDelete.classList.add('deletemodal'): modalDelete.classList.add('hide') ;
+  modalContent.append(modalDelete)
+
+  const subtitle = document.createElement('h3');
+  subtitle.classList.add('modal-subtitle')
+  subtitle.innerHTML = 'Удалить клиента';
+  modalDelete.append(subtitle);
+
+  const deletWarning = document.createElement('p');
+  deletWarning.innerText = 'Вы действительно хотите удалить данного клиента?';
+  deletWarning.classList.add('modal__text')
+  modalDelete.append(deletWarning);
+
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('modal__delete', 'modal__submit');
+  deleteButton.textContent = 'Удалить';
+  deleteButton.setAttribute('type', 'button');
+  modalDelete.append(deleteButton);
+
+  deleteButton.addEventListener('click', ()=>{
+    deleteContact(idNum)
+  })
+
+   //cancell
   const cancelButton = document.createElement('button');
   cancelButton.classList.add('modal__cancel');
   cancelButton.textContent = 'Отмена';
-  form.append(cancelButton);
+  modalContent.append(cancelButton);
 
+  if(mode ==='change'){
+    console.log(data.contacts)
+    data.contacts.map(item => {createContact(contactBlock, addContactButton, item)})
+  }
 }
 
 const SELECT_TYPE = {
@@ -115,13 +152,12 @@ const SELECT_TYPE = {
   facebook: 'Facebook',
 };
 
-function createContact(block, button){
+function createContact(block, button, user){
 
   const contactBlock = document.createElement('div');
   contactBlock.classList.add('modal-contacts__item');
   button.before(contactBlock);
 
-  // select
   const select = document.createElement('select');
   const choices = (el) => {
     new Choices(el, {
@@ -130,8 +166,8 @@ function createContact(block, button){
       itemSelectText: "",
       choices: [
         {
-          value: SELECT_TYPE.tel,
-          label: SELECT_TYPE.tel,
+          value: user.type || SELECT_TYPE.tel,
+          label: user.type || SELECT_TYPE.tel,
           placeholder: true,
           selected: true,
           disabled: false,
@@ -166,8 +202,8 @@ function createContact(block, button){
   
   const input = document.createElement('input');
   input.classList.add('modal-contacts__input');
-  input.placeholder = 'Введите данные контакта';
- 
+  user.value ? input.value = user.value : input.placeholder = 'Введите данные контакта';
+
   const cancel = document.createElement('button');
   cancel.classList.add('modal-contacts__cancel');
 
@@ -178,7 +214,6 @@ function createContact(block, button){
   contactBlock.append(cancel);
 
   choices(select);
-
 }
 
 function addCont(){

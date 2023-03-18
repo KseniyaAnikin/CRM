@@ -54,6 +54,8 @@ button {
   margin: 0;
   padding: 0;
   cursor: pointer;
+  border: none;
+  background-color: transparent;
 }
 
 a:focus,
@@ -243,6 +245,14 @@ table {
   padding-left: 20px;
 }
 
+.delete:hover {
+  color: #F06A4D;
+}
+
+.change:hover {
+  color: var(--purple);
+}
+
 /* addButton */
 .main__button-container {
   text-align: center;
@@ -304,12 +314,10 @@ table {
 .modal__content {
   position: relative;
   display: flex;
-
   flex-direction: column;
   /* -ms-flex-direction: column;
   -moz-flex-direction: column;
   -webkit-flex-direction: column; */
-
   width: 100%;
   max-width: 450px;
   max-height: 80%;
@@ -317,50 +325,54 @@ table {
   padding: 25px 0;
   border: 1px solid #888;
   background-color: #fefefe;
-
   transform: scale(0);
   /* -ms-transform: scale(0);
   -moz-transform: scale(0);
   -webkit-transform: scale(0); */
-
   transition: transform .8s ease-in-out;
   /* -o-transition: transform .2s ease-in-out;
   -webkit-transition: transform .2s ease-in-out;
   -moz-transition: transform .2s ease-in-out; */
-
   overflow-x: auto;
 }
 
-.modal__error-block {
+/* .modal__error-block {
   margin-bottom: 9px;
-}
+} */
 
-.modal__error {
+/* .modal__error {
   font-size: 10px;
   line-height: 14px;
   color: var(--red);
   text-align: center;
-}
+} */
 
 .modal__title {
   margin-bottom: 30px;
   padding: 0 30px;
+  font-weight: 700;
   font-size: 18px;
   line-height: 25px;
 }
 
-.modal__title_delete {
+.deletemodal {
+  display: flex;
+  flex-direction: column;
+  padding: 0 88px;
+}
+
+.modal-subtitle {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
   margin-bottom: 11px;
-  align-self: center;
-  -ms-grid-row-align: center;
+  text-align: center;
+  /* -ms-grid-row-align: center; */
 }
 
 .modal__text {
-  align-self: center;
-  -ms-grid-row-align: center;
-
+  /* -ms-grid-row-align: center; */
   margin-bottom: 25px;
-  padding: 0 88px;
   text-align: center;
 }
 
