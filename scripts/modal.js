@@ -132,7 +132,7 @@ export async function modal(mode, idNum) {
     deleteContact(idNum)
   })
 
-   //cancell
+  //cancell
   const cancelButton = document.createElement('button');
   cancelButton.classList.add('modal__cancel');
   cancelButton.textContent = 'Отмена';
@@ -140,7 +140,7 @@ export async function modal(mode, idNum) {
 
   if(mode ==='change'){
     console.log(data.contacts)
-    data.contacts.map(item => {createContact(contactBlock, addContactButton, item)})
+    data.contacts.map(item => { createContact(contactBlock, addContactButton, item) })
   }
 }
 
@@ -170,12 +170,6 @@ function createContact(block, button, user){
           label: user.type || SELECT_TYPE.tel,
           placeholder: true,
           selected: true,
-          disabled: false,
-        },
-        {
-          value: SELECT_TYPE.extratel,
-          label: SELECT_TYPE.extratel,
-          selected: false,
           disabled: false,
         },
         {

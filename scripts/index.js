@@ -76,6 +76,7 @@ const createTable = async(el) => {
     </th>
     <th class = 'table-head'>Контакты</th>
     <th class = 'table-head'>Действия</th>
+    <th class = 'table-head'></th> 
   </tr>`
 
   const spinner = document.createElement('div');
@@ -93,8 +94,9 @@ const createTable = async(el) => {
       row.id = `${element.id}`
       row.innerHTML = `<th>${element.id}</th>
         <th>${element.surname} ${element.name} ${element.lastName} </th>
-        <th>${timeParse(element.createdAt)} </th>
+        <th>${timeParse(element.createdAt)}</th>
         <th>${timeParse(element.updatedAt)}</th>
+        <th class='contacts'>${chooseIcon(element.contacts)}</th>
         <th> 
           <button class = 'change'>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +129,7 @@ const createTable = async(el) => {
         modal('change', e.target.parentNode.parentNode.id);
       }
     })
-}
+};
 
 const createAddButton = (el) => {
   const button = document.createElement('button');
@@ -150,27 +152,28 @@ createTable(wrapper)
 createAddButton(wrapper);
 
 function timeParse(currentDate){
-  let newDate = new Date(currentDate)
+
+  let newDate = new Date(currentDate);
 
   let day = newDate.getDate();
-  if (day < 10){
-    day = '0' + day
-  };
+  day < 10 ? day = '0' + day : day = day
+
   let month = newDate.getMonth() + 1;
-  if (month < 10){
-    month = '0' + month
-  };
+  month < 10 ? month = '0' + month : month = month;
+
   let year = newDate.getFullYear();
 
   let hour = newDate.getHours();
-  if (hour < 10){
-    hour = '0' + hour
-  };
+  hour < 10 ? hour = '0' + hour: hour = hour;
+
   let minutes = newDate.getMinutes(); 
-  if (minutes < 10){
-    minutes = '0' + minutes
-  };
+  minutes < 10 ? minutes = '0' + minutes : minutes = minutes;
 
   return `<span>${day + '.' + month + '.' + year}</span> <span class = "table-time">${ hour + ':' + minutes}</span>`
-}
+};
 
+function chooseIcon(contacts){
+   return contacts.map( (el) =>{
+    return `<img src = './img/${el.type}.svg'/>`
+  }).join(' ')  
+}
