@@ -34,17 +34,34 @@ export async function modal(mode, idNum) {
   });
   modalContent.append(closeButton);
 
+  const hidePlaceholder = (elem, placeholder) => {
+    if (elem.value.length >= 1) {
+      placeholder.classList.add('modal__placeholder_active');
+    } else {
+      placeholder.classList.remove('modal__placeholder_active');
+    }
+  };
+
   // surname
   const surName = document.createElement('input');
   const surNameLabel = document.createElement('label');
+  surNameLabel.innerHTML = 'Фамилия<span class="symbol">*</span>'
   const surNameBlock = document.createElement('div');
   surName.classList.add('modal__input');
   surNameLabel.classList.add('modal__placeholder');
   surNameBlock.classList.add('modal__input-container');
 
+  surName.addEventListener('blur', () => {
+    hidePlaceholder(surName, surNameLabel);
+  });
+
   const data = await getContactsInfo(idNum);
-  console.log(data)
-  mode === 'change' ? surName.value = `${data.surname}` : surNameLabel.innerHTML = 'Фамилия<span class="symbol">*</span>'
+
+  if(mode === 'change'){ 
+    surName.value = `${data.surname}`;
+    surNameLabel.classList.add('modal__placeholder_active');
+  }else {surName.value = '';}
+  
   surNameBlock.append(surName);
   surNameBlock.append(surNameLabel);
   form.append(surNameBlock);
@@ -53,25 +70,41 @@ export async function modal(mode, idNum) {
   const firstName = document.createElement('input');
   const firstNameLabel = document.createElement('label');
   const firstNameBlock = document.createElement('div');
+  firstNameLabel.innerHTML = 'Имя<span class="symbol">*</span>';
   firstName.classList.add('modal__input');
   firstNameLabel.classList.add('modal__placeholder');
   firstNameBlock.classList.add('modal__input-container');
-  mode === 'change' ? firstName.value = `${data.name}`: firstNameLabel.innerHTML = 'Имя<span class="symbol">*</span>';
+  if(mode === 'change'){ 
+    firstName.value = `${data.name}`
+    firstNameLabel.classList.add('modal__placeholder_active');
+  }else {surName.value = '';}
   firstNameBlock.append(firstName);
   firstNameBlock.append(firstNameLabel);
   form.append(firstNameBlock);
+
+  firstName.addEventListener('blur', () => {
+    hidePlaceholder(firstName, firstNameLabel);
+  });
 
   // patronymic
   const patronymic = document.createElement('input');
   const patronymicLabel = document.createElement('label');
   const patronymicBlock = document.createElement('div');
+  patronymicLabel.innerHTML = 'Отчество'
   patronymic.classList.add('modal__input');
   patronymicLabel.classList.add('modal__placeholder');
   patronymicBlock.classList.add('modal__input-container');
-  mode === 'change' ? patronymic.value = `${data.lastName}` : patronymicLabel.innerHTML = 'Отчество';
+  if(mode === 'change'){ 
+    patronymic.value = `${data.lastName}`;
+    patronymicLabel.classList.add('modal__placeholder_active');
+  }else {surName.value = '';}
   patronymicBlock.append(patronymic);
   patronymicBlock.append(patronymicLabel);
   form.append(patronymicBlock);
+
+  patronymic.addEventListener('blur', () => {
+    hidePlaceholder(patronymic, patronymicLabel);
+  });
 
   //add
   const contactBlock = document.createElement('div');

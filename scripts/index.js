@@ -1,12 +1,13 @@
 import { modal } from "./modal.js";
 import { getContactsInfo } from "./data.js";
-import { sortUp, sortDown } from './sort.js';
+import { sorting } from './sort.js';
+import { searching }  from  './search.js';
 
 const wrapper = document.querySelector('.wrapper');
 const container = document.createElement('div');
 container.classList.add('container', 'main__container');
 
-const createHeader = (el) => {
+const createHeader = async(el) => {
   const header = document.querySelector('.header');
   const headerContainer = document.createElement('div');
   const logo = document.createElement('div');
@@ -23,13 +24,15 @@ const createHeader = (el) => {
   form.classList.add('header__form');
   inputContainer.classList.add('header__input-container');
   search.classList.add('header__search');
+  search.setAttribute('id', 'autoComplete');
+  search.setAttribute('type', 'text');
   search.placeholder = 'Введите запрос';
 
   inputContainer.append(search);
   form.append(inputContainer);
   headerContainer.append(logo, form);
   header.append(headerContainer);
-  el.append(header)
+  el.append(header);
 };
 
 const createTable = async(el) => {
@@ -56,7 +59,7 @@ const createTable = async(el) => {
         </button>
       </th>
       <th class = 'table-head'>
-        <button class = 'name'>
+        <button class = 'surname'>
           Фамилия Имя Отчество
           <span>А-Я</span>
           <svg class='tablesvg' width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +70,7 @@ const createTable = async(el) => {
         </button>
       </th>
       <th class = 'table-head'>
-        <button class = 'createdate'>
+        <button class = 'createdAt'>
           Дата и время создания
           <svg class='tablesvg' width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.7" clip-path="url(#clip0_121_2332)">
@@ -77,7 +80,7 @@ const createTable = async(el) => {
         </button>
       </th>
       <th class = 'table-head'>
-        <button class = 'changedate'>
+        <button class = 'updatedAt'>
           Последние изменения
           <svg class='tablesvg' width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.7" clip-path="url(#clip0_121_2332)">
@@ -102,6 +105,7 @@ const createTable = async(el) => {
   spinner.innerHTML = `<div class="spinner-border" role="status"></div>`;
 
   const tBody = document.createElement('tbody');
+  tBody.classList.add('tbody')
   table.append(tBody)
 
   tableContainer.append(table);
@@ -120,51 +124,20 @@ const createTable = async(el) => {
     if(e.target.classList.contains('change')){
       modal('change', e.target.parentNode.parentNode.id);
     };
-    if(e.target.classList.contains('name')){
-      if(e.target.lastElementChild.classList.contains('tablesvg-up')){
-        clear(tBody);
-        createRows(sortDown(data, 'surname'), tBody);
-        e.target.lastElementChild.classList.remove('tablesvg-up');
-      } else {
-        e.target.lastElementChild.classList.add('tablesvg-up');
-        clear(tBody);
-        createRows(sortUp(data, 'surname'), tBody);
-      }
+    if(e.target.classList.contains('surname')){
+      sorting(e.target, tBody, data, 'surname');
     };
     if(e.target.classList.contains('id')){
-      if(e.target.lastElementChild.classList.contains('tablesvg-up')){
-        clear(tBody);
-        createRows(sortDown(data, 'id'), tBody);
-        e.target.lastElementChild.classList.remove('tablesvg-up');
-      } else{
-        clear(tBody);
-        e.target.lastElementChild.classList.add('tablesvg-up');
-        createRows(sortUp(data, 'id'), tBody);
-      }
+      sorting(e.target, tBody, data, 'id');
     };
-    if(e.target.classList.contains('createdate')){
-      if(e.target.lastElementChild.classList.contains('tablesvg-up')){
-        clear(tBody);
-        createRows(sortDown(data, 'createdAt'), tBody);
-        e.target.lastElementChild.classList.remove('tablesvg-up');
-      } else {
-        clear(tBody)
-        e.target.lastElementChild.classList.add('tablesvg-up')
-        createRows(sortUp(data, 'createdAt'), tBody);
-      }
+    if(e.target.classList.contains('createdAt')){
+      sorting(e.target, tBody, data, 'createdAt');
     };
-    if(e.target.classList.contains('changedate')){
-      if(e.target.lastElementChild.classList.contains('tablesvg-up')){
-        clear(tBody);
-        createRows(sortDown(data, 'updatedAt'), tBody);
-        e.target.lastElementChild.classList.remove('tablesvg-up');
-      } else {
-        clear(tBody)
-        e.target.lastElementChild.classList.add('tablesvg-up')
-        createRows(sortUp(data, 'updatedAt'), tBody);
-      }
+    if(e.target.classList.contains('updatedAt')){
+      sorting(e.target, tBody, data, 'updatedAt');
     }
-  })
+  });
+  searching(data)
 };
 
 const createAddButton = (el) => {
@@ -209,12 +182,12 @@ function timeParse(currentDate){
 };
 
 function chooseIcon(contacts){
-   return contacts.map( (el) =>{
-    return `<img src = './img/${el.type}.svg'/>`
-  }).join(' ')  
+   return contacts.map( (el) => {
+    return  `<button id='iconbtn' data-info='${el.type} : ${el.value}'><img src ='./img/${el.type}.svg'/></button>`
+  }).join(' ')   
 }
 
-function createRows(data, table){
+export function createRows(data, table){
 
   data.forEach((element )=> {
     const row = document.createElement('tr');
@@ -245,11 +218,12 @@ function createRows(data, table){
         </button>
       </th>`
     table.append(row);
-  });
+
+    tippy('#iconbtn', {
+        content: (reference) => reference.getAttribute('data-info')
+    })
+  });  
 }
 
-function clear(element){
-  element.innerHTML = '';
-}
 
 
