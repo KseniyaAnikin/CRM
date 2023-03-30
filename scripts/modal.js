@@ -23,7 +23,7 @@ export async function modal(mode, idNum) {
   modalAdd.append(title);
 
   const form = document.createElement('form');
-  form.classList.add('modal__form', 'modal-form');
+  form.classList.add('modal__form');
   modalAdd.append(form);
 
   const closeButton = document.createElement('button');
@@ -127,17 +127,17 @@ export async function modal(mode, idNum) {
   saveButton.setAttribute('type', 'button');
   form.append(saveButton);
   saveButton.addEventListener('click', ()=>{
-    let newContact = {
-      name: firstName.value,
-      surname: surName.value,
-      lastName: patronymic.value,
-      contacts: addCont(),
-    }
-    mode === 'add' ? addContactsInfo(newContact) : changeContact(newContact, data.id);
-    form.reset();
-    modal.remove();
-    alert('Изменения сохранены');
-    // window.location.reload();
+
+      let newContact = {
+        name: firstName.value,
+        surname: surName.value,
+        lastName: patronymic.value,
+        contacts: addCont(),
+      }
+      mode === 'add' ? addContactsInfo(newContact) : changeContact(newContact, data.id);
+      form.reset();
+      modal.remove();
+      alert('Изменения сохранены');
   })
 
   //DELETE MODE
@@ -201,8 +201,8 @@ function createContact(block, button, user){
         {
           value: user.type || SELECT_TYPE.tel,
           label: user.type || SELECT_TYPE.tel,
-          placeholder: true,
-          selected: true,
+          // placeholder: true,
+          selected: false,
           disabled: false,
         },
         {
@@ -257,4 +257,3 @@ function addCont(){
 
   return allCont;
 }
-

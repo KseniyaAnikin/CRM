@@ -20,10 +20,6 @@ export async function searching(data){
       
       if(suggestions.length === 0 ) {
         suggestions = info.filter(n => n.value.startsWith(text));
-        // suggestions = data.forEach(e => data.filter(el => el.contacts.filter(n => n.value.startsWith(text))) ) ;
-        // suggestions = data.filter(n => {
-        //   n.contacts.filter(el => {
-        //     el.value.startsWith(text)})});
       }
 
       update(suggestions);

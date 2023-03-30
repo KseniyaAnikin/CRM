@@ -4,10 +4,8 @@ import { sorting } from './sort.js';
 import { searching }  from  './search.js';
 
 const wrapper = document.querySelector('.wrapper');
-const container = document.createElement('div');
-container.classList.add('container', 'main__container');
 
-const createHeader = async(el) => {
+const createHeader = (el) => {
   const header = document.querySelector('.header');
   const headerContainer = document.createElement('div');
   const logo = document.createElement('div');
@@ -49,7 +47,7 @@ const createTable = async(el) => {
   `<thead>
     <tr class = 'table-headrow'>
       <th class = 'table-head'>
-        <button class = 'id'>
+        <button class = 'id tbtn'>
           ID
           <svg class='tablesvg' width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.7" clip-path="url(#clip0_121_2332)">
@@ -59,7 +57,7 @@ const createTable = async(el) => {
         </button>
       </th>
       <th class = 'table-head'>
-        <button class = 'surname'>
+        <button class = 'surname tbtn'>
           Фамилия Имя Отчество
           <span>А-Я</span>
           <svg class='tablesvg' width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +68,7 @@ const createTable = async(el) => {
         </button>
       </th>
       <th class = 'table-head'>
-        <button class = 'createdAt'>
+        <button class = 'createdAt tbtn'>
           Дата и время создания
           <svg class='tablesvg' width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.7" clip-path="url(#clip0_121_2332)">
@@ -80,7 +78,7 @@ const createTable = async(el) => {
         </button>
       </th>
       <th class = 'table-head'>
-        <button class = 'updatedAt'>
+        <button class = 'updatedAt tbtn'>
           Последние изменения
           <svg class='tablesvg' width="12" height="26" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.7" clip-path="url(#clip0_121_2332)">
@@ -105,11 +103,10 @@ const createTable = async(el) => {
   spinner.innerHTML = `<div class="spinner-border" role="status"></div>`;
 
   const tBody = document.createElement('tbody');
-  tBody.classList.add('tbody')
-  table.append(tBody)
+  tBody.classList.add('tbody');
+  table.append(tBody);
 
-  tableContainer.append(table);
-  main.append(spinner)
+  tableContainer.append(table, spinner);
 
   const data = await getContactsInfo();
   
@@ -185,7 +182,7 @@ function chooseIcon(contacts){
    return contacts.map( (el) => {
     return  `<button id='iconbtn' data-info='${el.type} : ${el.value}'><img src ='./img/${el.type}.svg'/></button>`
   }).join(' ')   
-}
+};
 
 export function createRows(data, table){
 
@@ -194,7 +191,7 @@ export function createRows(data, table){
     row.classList.add('table-row');
     row.id = `${element.id}`
     row.innerHTML = `<th>${element.id}</th>
-      <th>${element.surname} ${element.name} ${element.lastName} </th>
+      <th><a class="client-link" href="client.html?id=${element.id}">${element.surname} ${element.name} ${element.lastName}</a> </th>
       <th>${timeParse(element.createdAt)}</th>
       <th>${timeParse(element.updatedAt)}</th>
       <th class='contacts'>${chooseIcon(element.contacts)}</th>
@@ -224,6 +221,8 @@ export function createRows(data, table){
     })
   });  
 }
+
+
 
 
 
