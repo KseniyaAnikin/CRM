@@ -8,10 +8,13 @@ export async function addContactsInfo(user){
     method: 'POST',
     body: JSON.stringify(user) ,
   }).then(response => {
-    if (response.status !== 201 ) {
+    if (response.status !== 201 &&  response.status !== 422  ) {
+      console.log(response.status)
+      alert('Что-то пошло не так, попробуйте позже');
       throw new Error('Network response was not ok.')
     }
     response.json();
+    console.log(response.status)
   })
   .catch(console.error);
 }
@@ -22,6 +25,7 @@ export async function deleteContact(id){
     method: 'DELETE'
   }).then(response => {
     if (response.status !== 204 || response.status !== 200 ) {
+      alert('Что-то пошло не так, попробуйте позже');
       throw new Error('Network response was not ok.')
     }
     response.json();

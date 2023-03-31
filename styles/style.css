@@ -228,7 +228,6 @@ table {
   position: relative;
   z-index: -1;
   transform: rotate(180deg) translateY(3px);
-  /* transition: all 0.3 ease-in-out; */
 }
 
 .tablesvg-up {
@@ -267,7 +266,7 @@ thead {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .table-head {
@@ -394,16 +393,16 @@ thead {
   overflow-x: auto;
 }
 
-/* .modal__error-block {
+.modal__error-block {
   margin-bottom: 9px;
-} */
+}
 
-/* .modal__error {
+.modal__error {
   font-size: 10px;
   line-height: 14px;
   color: var(--red);
   text-align: center;
-} */
+}
 
 .modal__title {
   margin-bottom: 30px;
@@ -425,11 +424,9 @@ thead {
   line-height: 25px;
   margin-bottom: 11px;
   text-align: center;
-  /* -ms-grid-row-align: center; */
 }
 
 .modal__text {
-  /* -ms-grid-row-align: center; */
   margin-bottom: 25px;
   text-align: center;
 }
@@ -456,6 +453,10 @@ thead {
   border: none;
   border-bottom: 1px solid var(--light-grey);
   cursor: pointer;
+}
+
+.modal__input:focus {
+  border-bottom: 1px solid var(--light-grey); 
 }
 
 .modal__input_error {
@@ -535,7 +536,7 @@ thead {
   position: relative;
   align-self: center;
   margin-bottom: 7px;
-  padding: 13px 35px;
+  padding: 13px 40px 13px 30px;
   color: #fff;
   font-weight: 600;
   font-size: 14px;
@@ -547,25 +548,6 @@ thead {
 
 .modal__submit:hover {
   background-color: #8052FF;
-}
-
-.modal__submit::after {
-  content: '';
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  width: 12px;
-  height: 12px;
-  margin-top: -6px;
-  background-image: url(../img/loading.svg);
-  background-repeat: no-repeat;
-  background-size: contain;
-  animation: loading 2s linear infinite;
-  visibility: hidden;
-}
-
-.modal__submit_loading::after {
-  visibility: visible;
 }
 
 .modal__cancel {
@@ -660,6 +642,10 @@ thead {
   border-top: 1px solid var(--light-grey);
   border-bottom: 1px solid var(--light-grey);
   background-color: #f0eff3;
+}
+
+.modal-contacts__input-error {
+  border: 1px solid var(--red);;
 }
 
 .modal-contacts__input::placeholder {
@@ -765,6 +751,10 @@ thead {
 
 .choices__list--dropdown .choices__item:hover {
     background-color: rgb(177, 161, 210) !important;
+}
+
+.spinner-border-sm {
+  margin-right: 5px;
 }
 
 /* CLIENT CARD */
