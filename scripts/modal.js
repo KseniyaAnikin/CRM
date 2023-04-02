@@ -160,7 +160,7 @@ export async function modal(mode, idNum) {
     const inputs = document.querySelectorAll('.modal-contacts__input');
     inputs.forEach(e => {
       e.addEventListener('focus', ()=>{
-        e.classList.remove('modal-contacts__input-error')
+        e.classList.remove('modal-contacts__input-error');
       })
     })
 
@@ -181,7 +181,10 @@ export async function modal(mode, idNum) {
       document.querySelector('.spinner-border-sm').classList.add('hide');
     }
     if(checkCont(inputs, errorBlock)){
-      console.log('пустой контакт')
+      console.log('пустой контакт');
+    }
+    if(checkContInputs( newContact.contacts, errorBlock)){
+      console.log('doesnt work');
     }
     else{
       document.querySelector('.spinner-border-sm').classList.remove('hide');
@@ -332,6 +335,31 @@ function checkCont(arr, errorBlock){
     }
   })
   if( _isEmpty === true) return true;
+}
+
+function checkNumberEmail(text, errorBlock, value){ 
+  const error = document.createElement('p');
+  error.classList.add('modal__error')
+  error.innerHTML = `Некорректный ${text}`;
+  errorBlock.append(error);
+  
+  let inp = document.querySelectorAll('.modal-contacts__input');
+  let x = [...inp].filter(i=> i.value == `${value}`);
+  x.map(i=> i.classList.add('modal-contacts__input-error'))
+}
+
+function checkContInputs( arr, errorBlock){
+  arr.forEach(el => {
+    if(el.type === 'Телефон'  && !validator.isNumeric(el.value)){
+      checkNumberEmail('телефон', errorBlock, el.value); 
+      return false;
+    }
+    if(el.type === 'Email'  && !validator.isEmail(el.value)){
+      checkNumberEmail('Email', errorBlock, el.value);
+      return false;
+    }
+    return true;
+  })
 }
 
  
